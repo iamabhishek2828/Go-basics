@@ -1,151 +1,144 @@
+Done — I updated your functional PoC to follow **Option B (undated phases / outcomes-only)**. I removed the week-by-week timeline and replaced it with outcome-focused phases so you — as an intern — are not committing dates or resources. Below is the ready-to-share PoC text (copy-paste into Word/PowerPoint or email to your manager).
 
-## Proof of Concept (PoC)
+---
 
-### 1. Executive Summary (one paragraph)
+# Functional PoC — AI-Enabled Financial Reporting & Risk Management (FRS)
 
-This PoC demonstrates a compact, deliverable 30-day route to prove that an AI-enabled Financial Reporting System (FRS) can transform routine treasury and procurement workflows into continuous, auditable assurance. The system integrates a governed data foundation, a rule and machine learning risk engine and business intelligence-grade ‘as-of’ reporting to detect and prevent payment risk, expedite audits and enhance fiscal transparency. Expected PoC outcomes include identifying the top 100 ranked risk exposures, generating 50–150 meaningful flags for human review and demonstrating a 10-fold faster risk triage process with a measurable audit trail for each decision. The design enforces on-premise/sovereign hosting, human-in-the-loop controls and donor-aligned governance.
+**Purpose:** a compact, manager-focused Proof of Concept that is strictly functional — processes, inputs/outputs, roles, and measurable outcomes — so treasury teams can run, validate and adopt the capability without needing deep technical detail.
 
-### 2. Objectives (what this PoC must prove)
+---
 
-1. **Detect & Prioritise**: Identify and rank risky procurement and payment items using rules and machine learning so auditors focus on the highest-value cases.
-2. **Prevent & Evidence**: Demonstrate that preventive controls and evidence packs can prevent or escalate suspect payments before payout.
-3. **Explain & Audit**: Every alert must link to exact source evidence (contract clause, invoice page) and a concise human-readable explanation.
-4. **Operational Fit**: Demonstrate a workflow that a treasury team can operate (rule updates, review queues, evidence export).
+## Executive summary (one short paragraph)
 
-### 3. PoC Scope (Data & Functionality)
+This PoC proves that an operational FRS can detect, prioritise and prevent high-risk payments and procurement events using simple business rules plus lightweight AI scoring, while keeping humans in control. The focus is on end-to-end workflows (identify → score → act → monitor → learn), clear inputs and outputs, and measurable targets that treasury managers can validate in operational terms.
 
-**Data Sample** (anonymised): 6 months procurement contracts (5,000–10,000 rows), 3 months payments (50,000–100,000 transactions), supplier master (5,000 vendors), budget versus actuals snapshot.
+---
 
-**Core Functions to Deliver:** Ingest documents (PDFs), extract key fields (supplier, contract number, clause), run rule checks (caps, approvals, ineligible vendors), run two machine learning detectors (anomaly on payment patterns; supplier collusion signals), produce a ranked risk list and executive dashboard, provide evidence packs for the top 20 items.
+## Objectives (what the PoC must demonstrate)
 
-**Success thresholds:** identify 50–150 flags; manual review true-positive ≥70% (PoC target); dashboard with drill-through to documents.
+1. Identify risky transactions and contracts automatically across the sample dataset and present a ranked worklist for auditors.
+2. Prevent clear rule breaches from proceeding without human sign-off (e.g., over-limit payment, missing approval).
+3. Produce evidence packs for each high-risk item that auditors can review in under 10 minutes.
+4. Show measurable operational gains: faster triage, fewer manual hours, and at least 50 validated flags for review.
 
+---
 
+## Core functional workflows (each described as inputs → processing → outputs)
 
-—
+### 1) Identification workflow
 
+**Inputs:** payment records, supplier master, contracts (PDF), approval logs.
+**Processing:** run a set of configurable business rules (caps, duplicate invoice, missing approval) and run pattern checks that group related transactions by supplier and timing.
+**Outputs:** a daily candidate list with one line per suspect item containing reason codes, reference IDs, and a link to the source document.
 
+### 2) Prioritisation workflow
 
-## 4. Risk-management lifecycle (functional, client language)
+**Inputs:** candidate list, rule severity matrix, simple ML score (optional).
+**Processing:** assign a likelihood × impact score using rule severity and basic behavioral signals (frequency, amount, past flags). Sort into high/medium/low buckets.
+**Outputs:** a ranked worklist for auditors showing top items with short plain-language rationale for each.
 
+### 3) Mitigation / prevention workflow
 
+**Inputs:** top N flagged items, policy map (who can approve), payment lifecycle hooks.
+**Processing:** apply configured actions: auto-hold payment pending approval, request evidence from responsible official, or auto-escalate. All actions log the rule and user decision.
+**Outputs:** action log, blocked/held transactions list, notifications to approvers, and timestamps for SLA tracking.
 
-**Identify:** all transactions and contracts are screened automatically using configurable business rules and pattern detectors; no manual reading is required to generate candidate risks.
+### 4) Human review & resolution workflow
 
-**Assess & score:** each candidate receives a simple likelihood × impact score using rule breaches (hard) and behavioural signals (soft); the highest scores appear at the top of the queue.
+**Inputs:** ranked worklist, evidence pack (contract excerpt, invoice image, metadata).
+**Processing:** auditor reviews evidence, tags outcome (false positive, confirmed, recovered, referral), and writes a short disposition note. Outcome updates the system and feeds learning.
+**Outputs:** disposition log, recovered amounts (if any), and labeled records for tuning rules.
 
-**Mitigate (preventive controls):** configurable actions include payment hold pending sign-off, automatic request for supporting evidence or notification to approving authority. Human approval is required before any payment is blocked.
+### 5) Continuous monitoring & reporting workflow
 
-**Monitor:** continuous re-scoring and trending dashboards surface emerging sectors, suppliers or departments that drift above thresholds.
+**Inputs:** resolved outcomes, transaction stream.
+**Processing:** re-score flows regularly, compute KPIs (flags/day, true positive rate, reviewer hours), and generate dashboard tiles for leadership.
+**Outputs:** dashboard, periodic risk heatmap, exception trend emails to managers.
 
-**Learn & improve:** investigator outcomes (false positive, confirmed, recovered) are recorded and used to tune rules and models; all changes are versioned.
+---
 
+## Inputs and outputs (simple table in text)
 
+* **Inputs:** procurement contracts (PDFs), payment ledger, supplier master, approval logs, budget positions.
+* **Primary outputs:** ranked risk list, evidence packs (per item), action logs (holds/escalations), executive dashboard, operational PoC report with validation metrics.
 
-—
+---
 
+## Roles & responsibilities (who does what)
 
+* **Treasury Sponsor / Head:** approves PoC scope, accepts final report.
+* **Audit / SME Reviewers:** validate flagged items, provide dispositions and feedback.
+* **Data Steward:** provides sample extracts, confirms data lineage and unit mapping.
+* **SI / Delivery Lead:** deploys PoC sandbox, configures rule engine, produces dashboards and evidence packs.
+* **AI/Ops Contact (if used):** manages lightweight model scoring and ensures retraining only on labeled outcomes.
+* **IT / Security:** provides secure sandbox, ensures data locality and access control.
 
-## 5. How AI adds value — short practical examples
+---
 
+## Acceptance criteria (literal, testable)
 
+1. System screens 100% of supplied sample transactions and produces a ranked list within an operational run window (example: within one system run).
+2. At least **50 flags** are produced and at least **70%** of the top-50 flags are confirmed as true issues or require further action after auditor review.
+3. Evidence packs for each top-20 item contain the exact contract page / invoice image and can be reviewed in under **10 minutes**.
+4. Preventive action: at least **5** true rule-based holds occur and are resolved through the defined approval workflow.
+5. Dashboard shows key KPIs and a trend line; leadership can export a one-page report showing top risks and actions.
 
-* **Document extraction:** NLP/OCR converts contract PDFs into structured fields so rules can reference exact clauses without manual transcription.
+---
 
-* **Pattern detection:** ML flags supplier networks (repeated collusive indicators) and unusual invoice sequencing that human reviewers miss at scale.
+## Quick wins (what to build first)
 
-* **Prioritisation:** scoring blends policy breaches with model signals so auditors see what to act on and why – reducing time to decision.
+1. Implement the **rules that are easy to validate**: missing approval, over-limit, duplicate invoice, blacklisted vendor.
+2. Deliver an **evidence viewer** that opens the contract PDF at the cited page and highlights the clause.
+3. Provide a **one-page executive report** with top 10 risks and the proposed action for each.
+4. Add a **manual override log** so reviewers can immediately mark false positives and record why.
 
-* **Narrative explanation:** the system generates a two-line natural-language rationale for each flag with links to the documents.
+---
 
+## What not to automate in PoC
 
+Do not automate payment blocks without explicit human sign-off. Do not train models on PII outside secure environments. Do not attempt full beneficiary-level entitlement rules in the PoC — stick to supplier/payment risk.
 
-—
+---
 
+## Phased approach (outcomes-only — no dates)
 
+**Foundation (scope & data readiness):** provision a secure sandbox, ingest anonymised sample data, and deploy document extraction so rules can run on live-style inputs. *Outcome:* validated sample ingestion and extracted document fields ready for rules.
 
-## 6. Benchmarks & substantiation (real examples)
+**Intelligence (detection & prioritisation):** deploy the rule engine and initial anomaly detectors; produce a ranked risk list and evidence packs. *Outcome:* a ranked worklist and evidence viewer showing top candidate items.
 
+**Validation (human review & tuning):** SME/audit review of the priority flags and disposition capture; tune rules and scoring using labeled outcomes. *Outcome:* validated top items, labeled dataset for tuning, and reduced false positives.
 
+**Transparency & scale (operational fit & handover):** deliver executive dashboards, evidence export, operational playbook and a recommended procurement/SI approach for scale. *Outcome:* governance artefacts, SOW language, and readiness checklist for full deployment.
 
-These examples guided the design and provide expected magnitudes of benefit: Brazil’s GRAS piloted procurement risk analytics and flagged hundreds to thousands of suspect suppliers (reports cite approximately 850+ suspicious suppliers and several thousand politically linked firms). Singapore’s continuous audit covered payroll and pensions for approximately 90,000 workers and 34,000 pensioners. Kazakhstan’s COSO-aligned preventive checks reportedly prevented approximately 1.2 trillion tenge (US$2.7 billion) in violations. Jacksonville’s public dashboards recovered over 600 staff hours annually. These are used as reference performance targets for detection speed, percentage coverage and staff time savings.
+*Note: exact dates and resource allocations will be finalised by the Project Sponsor and the chosen System Integrator.*
 
+---
 
+## Success metrics to report (operational)
 
-—
+* Number of transactions screened; flags generated; confirmed issues; FTE hours saved; median review time per case; blocked amounts recovered; percentage of rules that required tuning after review.
 
+---
 
+## Governance & safeguards (short)
 
-## 7. Vendor & delivery model (procurement-ready)
+Keep human-in-the-loop for all blocking actions, store full evidence lineage for each decision, version rules and keep an audit trail of changes, and restrict training data to anonymised samples only. Use role-based access and require independent sign-off before scaling to production.
 
+---
 
+## Deliverables (what the treasury receives)
 
-**Prime: System Integrator (SI)** — responsible for end-to-end delivery, integration with IFMS, test environment and cutover.
+1. Running PoC sandbox with dashboards and evidence viewer.
+2. Ranked risk list with evidence packs and auditor dispositions.
+3. One-page executive summary with validated numbers.
+4. Operational playbook showing workflows, responsibilities and SOW language for prime SI and partners.
 
-**AI/ML partner** — supplies model IP, training pipelines and ongoing model governance; model artefacts reside in the client environment.
+---
 
-**BI partner** — implements semantic layer and executive dashboards (Power BI / Tableau / open alternative).
+If you want, I can now (pick one and I’ll produce it immediately):
 
-**Infra provider** — on-premises or sovereign cloud operator (compute, storage, backups, network).
+* Convert this Option-B PoC into a **two-page Word/PDF** with PwC-style headers and layout, ready for print.
+* Update the Excel registry and add a **“PoC functional checklist”** tab that maps acceptance criteria to rows for tracking.
 
-**OCR / Document capture** — specialist for PDFs, e-invoices and images.
+Tell me which one to produce and I’ll create it right away.
 
-**Cyber & IAM partner** — encryption, SIEM, role-based controls and audit logging.
-
-**Change & Training partner** — frontline training, process adoption and SOPs.
-
-Contracting: SI as prime; others as subcontractors with service level agreements (SLAs) for model performance, data locality and retraining cadence. All vendors must sign data locality and non-disclosure clauses; model outputs used for high-impact actions require documented human sign-off and independent validation.
-
-
-
-—
-
-
-
-## 8. 30-day PoC plan (detailed deliverables by week)
-
-
-
-**Week 1 — Setup & extraction:** sandbox provisioning, ingest anonymised sample data, deploy OCR/NLP pipeline for contracts and invoices. Deliverable: accessible sample dataset + first extracted document fields.
-
-**Week 2 — Rules & Detectors:** Implement 10 business rules and two machine learning detectors; run a full sample. Deliverable: first ranked risk list and audit evidence links.
-
-**Week 3 — Human Validation & Dashboards:** Auditors review the top 100 flags; populate outcomes. Deploy an executive dashboard with drill-through functionality. Deliverable: Validated top-20 evidence packs and dashboard.
-
-**Week 4 — Wrap & Handover:** Metrics, lessons learned, rule tuning and a recommended 90-day roadmap for scale. Deliverable: PoC executive report (1-pager), evidence zip file, model and rule registry extract.
-
-—
-
-## 9. PoC Success Metrics (Leadership Measurement)
-
-* **Detection Coverage:** Percentage of transactions screened (target 100% of sample).
-* **Top-100 Validation Rate:** Manual review true positives (PoC target ≥70%, operational target ≥85%).
-* **Time to Triage:** Median time vs baseline (target 10× improvement).
-* **Manual Hours Saved:** FTE hours saved on routine checks (target ≥50% reduction).
-* **Auditability:** 100% of flags have downloadable evidence (PDF + link + clause).
-
-—
-
-## 10. Governance & Safeguards (Non-Negotiable)
-
-* **Human-in-the-Loop:** All blocking/preventive actions require explicit human approval.
-* **Data Locality:** On-premises or sovereign cloud; no external model training on live PII.
-* **Explainability:** Every alert must contain a short, auditable explanation and source link.
-* **Model & Rule Registry:** Versioned with rollback and change logs; independent auditor access.
-
-**11. Deliverables (what you will receive)**
-
-1. Executive PoC report (1 page) and detailed PoC findings (10–12 pages).
-2. Interactive dashboard (demo link or packaged artefact).
-3. Evidence pack: top 20 flagged cases with source documents and review notes.
-4. Model & rule registry extract (CSV) showing deployed rules and model version.
-5. Recommended 90-day scaling roadmap and procurement SOW template for SI engagement.
-
-**12. Next steps (recommended immediate actions)**
-
-1. Approve data access and sign PoC engagement letter (30 days).
-2. Nominate 1–2 SME reviewers (audit/treasury) and a data steward.
-3. Provide anonymised sample extracts (secure transfer) and a development VM or access to a sovereign test environment.
-4. Schedule an inception workshop (2 hours) to agree rules and PoC acceptance criteria.
-
-**Contact (for PoC delivery):** Project Lead (SI contact) | AI Lead | Treasury Sponsor (names to be inserted).
