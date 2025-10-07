@@ -1,14 +1,5 @@
 https://pension-assistant-ddbqwpnml.vercel.app/
-A. Replace the Input → Processing → Output (Functional Implementation) cell with:
-
-Inputs: high-certainty flags and candidate metadata.
-Processing: determine owner using configurable assignment rules (role, department, risk tier, workload); create case record with owner, priority, SLA and evidence pack; set case status (New → Assigned → Under review → Resolved). Route notifications to the owner and their manager; record every action in the audit log.
-Outputs: held payments log, assigned case records with owner and SLA timestamps, notification trail and resolution disposition.
-
-B. Replace the Brief step explanation & where emerging tech is used cell with:
-
-Places high-certainty items on controlled hold and opens a tracked case assigned to a responsible owner (procurement officer / treasury investigator / audit). Cases are auto-routed by role and risk tier; owners receive notifications, must acknowledge, and record a disposition. (Tech: Workflow automation, case-management, RBAC.)
-
-C. Update the Acceptance Criteria cell with:
-
-At least 95% of high-priority cases assigned to an owner automatically within 2 hours of flag creation; owner acknowledgement within 24 hours; 90% of high-risk cases resolved or escalated within 7 working days. Audit trail and owner note required for every disposition.
+Input: assigned case record with evidence pack (contract pages, invoice image, rule excerpt) and case metadata.
+Processing: assigned reviewer opens the evidence pack, reads the minimal required material, selects one disposition (Confirmed — action required / False positive / Refer for deeper investigation / Recovery), types a short 1–2 line rationale, and records required next steps (approve release, escalate, recover funds). The disposition is captured as structured metadata for downstream tuning.
+Output: finalized disposition entry (with reviewer ID and timestamp), disposition notes, updated case status, and labeled dataset row for rule/prioritisation tuning.
+Purpose (one line): enables fast, auditable decisions with minimal reviewer effort and creates labeled outcomes to improve system accuracy. (Tech: lightweight annotation UI; audit log)
