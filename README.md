@@ -1,63 +1,64 @@
-https://pension-assistant.vercel.app/
-Nice — I researched and picked the **four best, practical ways** to use *Talk-to-Data* in a PFM product. Each option is short, simple, and includes what it does, why it’s valuable, how you’d build a quick POC, and the main safety/privacy notes.
+# Direct source links (authoritative) — ready to use
 
-# 1) Natural-Language Querying (NL → safe DB queries)
+Below are the official / high-value sources I found (click each to open). I’ve included the exact RFP/ToR and PDFs you’ll want first.
 
-**What it does:** Users type (or speak) questions like “How much did I spend on groceries in Sep?” and the system returns exact numbers, top merchants and a small chart.
-**Why it’s powerful:** It makes data exploration natural for non-technical users and removes menus. Enterprise-grade NL→SQL tooling is maturing and is being used to let people query their data directly. ([Amazon Web Services, Inc.][1])
-**How to implement (POC):** intent + entity extractor → map to prebuilt SQL templates (no free text SQL) → run query on DB → return structured result + short natural language summary.
-**Quick POC (2 weeks):**
+1. Finance Department, Government of Tripura (official site). ([finance.tripura.gov.in][1])
+   [https://finance.tripura.gov.in/](https://finance.tripura.gov.in/) ([finance.tripura.gov.in][1])
 
-* Use an anonymized transactions table for 1–5 users.
-* Build 6 templates (spend by category, top merchants, date range totals, transactions over X, monthly trend, export CSV).
-* Use an LLM/intent model to fill template slots and validate.
-  **KPIs:** correctness of numbers (100%), NL→template accuracy (>90%), latency <2s.
-  **Safety:** never let the LLM run arbitrary SQL; always validate queries and limit columns returned.
+2. Finance — Budget page (Tripura) — budget volumes, speeches, notifications. ([finance.tripura.gov.in][2])
+   [https://finance.tripura.gov.in/budget](https://finance.tripura.gov.in/budget) ([finance.tripura.gov.in][2])
 
-# 2) RAG-powered Contextual Advisor (answers + docs + policies)
+3. Tripura IFMS — Request for Proposal / Terms of Reference (ToR) — official PDF (RFP dated Oct 18, 2024). ([tripura.gov.in][3])
+   [https://tripura.gov.in/sites/default/files/ToR-Finance_-_Offline_17102024.pdf](https://tripura.gov.in/sites/default/files/ToR-Finance_-_Offline_17102024.pdf) ([tripura.gov.in][3])
 
-**What it does:** For complex or contextual questions — e.g., “Which investments are tax-efficient this FY?” or “Show policy on overdraft fees” — the system retrieves exact documents/snippets and gives an LLM-written summary grounded in those docs.
-**Why it’s powerful:** RAG keeps answers accurate and up-to-date by feeding the model trusted content rather than relying on model memory. Finance teams are widely adopting RAG to avoid hallucinations and to combine policies/reports with live data. ([CFA Institute Research and Policy Center][2])
-**How to implement (POC):** index product docs, policy PDFs, FAQ and user account context in a vector store; retrieval supplies evidence to the LLM; LLM returns a short answer + “sourced from” snippets.
-**Quick POC (2–3 weeks):**
+4. Tripura IFMS — Corrigendum / pre-bid clarifications (IFMS RFP corrigendum PDF). ([tripura.gov.in][4])
+   [https://tripura.gov.in/sites/default/files/corrigendum_IFMS.pdf](https://tripura.gov.in/sites/default/files/corrigendum_IFMS.pdf) ([tripura.gov.in][4])
 
-* Index 10–20 documents (billing policy, investment factsheets, help docs).
-* Build a demo: question → retrieved snippets → LLM answer with citations and link to original doc.
-  **KPIs:** citation presence rate (100% for policy answers), user trust score, fallback rate.
-  **Safety:** show citations and link to original doc; do not expose private PII in retrieval snippets.
+5. PFMS (Public Financial Management System) — official portal / integration guidance (CGA/PFMS). ([pfms.nic.in][5])
+   [https://pfms.nic.in/SitePages/index.html](https://pfms.nic.in/SitePages/index.html) ([pfms.nic.in][5])
 
-# 3) Semantic Transaction Search & Anomaly Detection (Vector search)
+6. PFMS — Contact / Help / FAQs (useful for integration & scheme concordance). ([pfms.nic.in][6])
+   [https://pfms.nic.in/sitepages/ContactUs.aspx](https://pfms.nic.in/sitepages/ContactUs.aspx) ([pfms.nic.in][6])
 
-**What it does:** Let users search semantically (“anything like ‘coffee near my office’”) and find similar transactions, recurring subscriptions, or flag anomalies (unusual location/amount). Vector search enables fuzzy/misspelled merchant matches and similarity searches. ([pinecone.io][3])
-**Why it’s powerful:** Users rarely know the exact merchant text; semantic matching groups “Starbucks” + “Starbks IND” etc. Also useful in fraud/anomaly detection by spotting outliers in vector space.
-**How to implement (POC):** create embeddings for transactions (description + merchant + category + amount normalized) → index in a vector DB (Pinecone/Milvus) → semantic queries return closest transactions. For anomalies, compare recent vectors to historical baseline.
-**Quick POC (2 weeks):**
+7. National Informatics Centre — Tripura (contacts / State IT / NIC directory). ([tripura.nic.in][7])
+   [https://tripura.nic.in/en/contact-us/](https://tripura.nic.in/en/contact-us/) ([tripura.nic.in][7])
 
-* Index last 3 months of transactions for sample users.
-* Build search box: free text → embed → vector search → show top 10 matches.
-* Add a simple anomaly flagger using distance threshold.
-  **KPIs:** precision/recall for semantic search (benchmarked with labeled pairs), anomaly detection true positive rate.
-  **Safety:** encrypt transaction vectors and control access; explain why a transaction was flagged.
+8. NIC — State Informatics Officers listing (useful to find SIO / NIC Tripura contact). ([nic.gov.in][8])
+   [https://www.nic.gov.in/state-informatics-officers/page/3/](https://www.nic.gov.in/state-informatics-officers/page/3/) ([nic.gov.in][8])
 
-# 4) Voice-enabled Coaching + Safe Action Automation
+9. General Financial Rules (GFR) 2017 — consolidated PDF (updated up to 31-Jul-2024). ([Department of Expenditure][9])
+   [https://doe.gov.in/files/circulars_document/FInal_GFR_upto_31_07_2024.pdf](https://doe.gov.in/files/circulars_document/FInal_GFR_upto_31_07_2024.pdf) ([Department of Expenditure][9])
 
-**What it does:** Voice or chat assistant that not only answers (“You spent ₹8,000 on dining last month”) but also proposes actions and executes them after explicit confirmation — e.g., “Move ₹3,000 to savings” → confirm → OTP → execute.
-**Why it’s powerful:** Voice + action makes PFM feel like a personal assistant — higher engagement and faster task completion. Conversational banking + action automation is a top trend in retail banking. ([Forbes][4])
-**How to implement (POC):** speech→text → intent detection → show preview of numeric result → require explicit confirm modal + 2FA before any transfer or schedule. Start with read-only features, then add action flows.
-**Quick POC (2–3 weeks):**
+10. Principal Accountant General / CAG — Tripura audit reports & State Finances Audit Report (SFAR). ([Comptroller and Auditor General of India][10])
+    [https://cag.gov.in/ag/tripura/en/audit-report](https://cag.gov.in/ag/tripura/en/audit-report) ([Comptroller and Auditor General of India][10])
+    (example SFAR PDF) [https://cag.gov.in/webroot/uploads/download_audit_report/2022/Full_SFAR-2020-21_Report-No.-1-of-2022_Tripura_%282-5-2022%29-0643f92b469c062.11118262.pdf](https://cag.gov.in/webroot/uploads/download_audit_report/2022/Full_SFAR-2020-21_Report-No.-1-of-2022_Tripura_%282-5-2022%29-0643f92b469c062.11118262.pdf) ([Comptroller and Auditor General of India][11])
 
-* Implement voice input and a simple “transfer to savings” flow that ends with a confirmation screen (no live money movement for POC; simulate).
-* Add audit log and simulated OTP step.
-  **KPIs:** successful action confirmation rate, reduction in time-to-complete common tasks, user satisfaction.
-  **Safety:** always require confirmation & OTP for financial actions; log everything; mask account identifiers in speech/dialog.
+11. Delegation of Financial Powers Rules — Tripura (state-level delegation rules PDF). ([High Court of Tripura][12])
+    [https://thc.nic.in/Tripura%20State%20Lagislation%20Rules/Delegation%20of%20Financial%20Powers%20Rules%2C%20Tripura%2C%202007.pdf](https://thc.nic.in/Tripura%20State%20Lagislation%20Rules/Delegation%20of%20Financial%20Powers%20Rules%2C%20Tripura%2C%202007.pdf) ([High Court of Tripura][12])
 
 ---
 
-## Quick comparison (which to pick first)
+Would you like me to:
 
-* **Fastest to deliver (low risk):** Option 1 (NL→template queries).
-* **Most user-impact / demo value:** Option 4 (voice + visible action flows) or Option 3 (semantic search with neat merchant grouping).
-* **Most important for accuracy & compliance:** Option 2 (RAG) — use it when answers must cite policy or legal text.
+* fetch and bundle the key PDFs into a single zipped download, **or**
+* extract the Chart-of-Accounts / sample masters from those PDFs into a spreadsheet (CSV/XLSX) you can import into your IFMS?
+
+Tell me which and I’ll produce it right away.
+
+[1]: https://finance.tripura.gov.in/?utm_source=chatgpt.com "Official Website of Department of Finance, Government of ..."
+[2]: https://finance.tripura.gov.in/budget?utm_source=chatgpt.com "Budget | Official Website of Department ..."
+[3]: https://tripura.gov.in/sites/default/files/ToR-Finance_-_Offline_17102024.pdf?utm_source=chatgpt.com "Request for Proposal to NeGD empaneled consulting ..."
+[4]: https://tripura.gov.in/sites/default/files/corrigendum_IFMS.pdf?utm_source=chatgpt.com "DIRECTORATE OF INFORMATION TECHNOLOGY"
+[5]: https://pfms.nic.in/SitePages/index.html?utm_source=chatgpt.com "Home"
+[6]: https://pfms.nic.in/sitepages/ContactUs.aspx?utm_source=chatgpt.com "Contact Us: PFMS Office"
+[7]: https://tripura.nic.in/en/contact-us/?utm_source=chatgpt.com "Contact Us | NIC Tripura State Centre | India"
+[8]: https://www.nic.gov.in/state-informatics-officers/page/3/?utm_source=chatgpt.com "State Informatics Officers | National Informatics Centre | India"
+[9]: https://doe.gov.in/files/circulars_document/FInal_GFR_upto_31_07_2024.pdf?utm_source=chatgpt.com "GENERAL FINANCIAL RULES 2017"
+[10]: https://cag.gov.in/ag/tripura/en/audit-report?utm_source=chatgpt.com "Audit Reports | Principal Accountant ..."
+[11]: https://cag.gov.in/webroot/uploads/download_audit_report/2022/Full_SFAR-2020-21_Report-No.-1-of-2022_Tripura_%282-5-2022%29-0643f92b469c062.11118262.pdf?utm_source=chatgpt.com "Report No. 1 of 2022 - STATE FINANCES AUDIT ..."
+[12]: https://thc.nic.in/Tripura%20State%20Lagislation%20Rules/Delegation%20of%20Financial%20Powers%20Rules%2C%20Tripura%2C%202007.pdf?utm_source=chatgpt.com "Delegation of Financial Powers Rules, Tripura, 2007."
+
+* answers must cite policy or legal text.
 
 ---
 
@@ -100,10 +101,7 @@ Perfect! Now I understand - you need to show which **specific user roles in the 
 | **Natural Language Processing (NLP)** | **Principal Accounts Officers (PAOs)** at Headquarters | PAOs manually consolidate budget utilization reports from 18+ regional offices - takes days to weeks[1][5] | PAO at CBSE HQ asks: "Which regional offices have utilized less than 60% of their affiliation wing budget?" - Gets consolidated view across all regions instantly[1] | Reduces reconciliation time from weeks to minutes; enables real-time monitoring of multi-location operations[6][1] |
 | **Natural Language Processing (NLP)** | **Budget Officers** in Finance Division | Creating variance reports, budget vs actual comparisons requires complex queries and manual Excel work[1][5] | Budget Officer queries: "Show examination wing expenditure trend for last 3 years by quarter" - System generates analysis without manual data compilation[1] | Achieves 3x faster decision-making; 20% increase in operational efficiency[7][8] |
 | **RAG (Retrieval Augmented Generation)** | **Assistant Accounts Officers (AAOs)** | AAOs process hundreds of bills daily but need to verify compliance with GFR, delegation limits, and CBSE financial rules - currently search 200+ page manuals[1][9] | AAO processing a ₹8 lakh printing contract asks RAG bot: "What is approval hierarchy for this amount?" - Gets instant answer from CBSE Financial Manual with rule references[1][9] | Eliminates 30 minutes per manual search; ensures 100% compliance; reduces queries to senior officers[10][1] |
-| **RAG (Retrieval Augmented Generation)** | **Programme Division Officers** | Officers managing scholarship schemes need historical data context for decision-making - currently scattered across files and emails[1] | Programme Officer asks: "What factors caused low scholarship utilization in 2024?" - RAG analyzes past reports, circulars, and provides contextual insights[1][11] | Provides data-driven insights for scheme modifications; improves scheme performance monitoring[1] |
-| **RAG (Retrieval Augmented Generation)** | **Internal Audit Teams** | Auditors need to verify if past transactions complied with rules that were applicable at that time - tedious manual verification[1][9] | Auditor uploads 2023 purchase order and asks: "Was this compliant with procurement rules applicable in 2023?" - RAG checks against archived rules[9] | Speeds up audit preparation; provides audit trail documentation; reduces CAG audit queries[1] |
-| **Semantic Search** | **Treasury Officers** at PAO | Treasury officers reconcile payments across multiple bank accounts, PFMS records, and regional reports - different terminology in each system[1][12] | Treasury officer searches "school fees March 2025" - Semantic search returns matching records from all sources even if labeled as "affiliation charges", "institutional fees"[1][12] | Breaks down data silos; improves reconciliation accuracy; reduces reconciliation time by 50%[13][1] |
-| **Semantic Search** | **Pay & Accounts Officers (PAOs)** | PAOs track payments across DDOs, schemes, and vendors - need to identify duplicate or suspicious patterns but can't manually review thousands of transactions[1][2] | PAO searches for "similar payments to printing vendors above ₹50,000 in January" - Finds patterns that might indicate duplicates or irregularities[1] | Early detection of payment anomalies; strengthens internal controls; supports fraud prevention[14][1] |
+| **RAG (Retrieval Augmented Generation)** | **Programme Division Officers** | Officers | **Semantic Search** | **Pay & Accounts Officers (PAOs)** | PAOs track payments across DDOs, schemes, and vendors - need to identify duplicate or suspicious patterns but can't manually review thousands of transactions[1][2] | PAO searches for "similar payments to printing vendors above ₹50,000 in January" - Finds patterns that might indicate duplicates or irregularities[1] | Early detection of payment anomalies; strengthens internal controls; supports fraud prevention[14][1] |
 | **Semantic Search** | **Chief Controller/Financial Advisors** | Senior officers need enterprise-wide view of financial performance across departments, schemes, and locations for strategic decisions[1][15] | Financial Advisor searches "underperforming education schemes 2025" - Gets comprehensive analysis across curriculum, examination, and scholarship wings[1] | Enables strategic resource reallocation; provides enterprise-wide visibility; supports policy decisions[8][1] |
 | **Voice-Enabled Bot** | **Field Officers/Examination Center Superintendents** | Center superintendents conduct exams at remote locations - can't access computers during exam days to report expenses or issues[1][16] | Superintendent calls voice bot during exam: "Record invigilation payment ₹15,000, center 1234, paid to coordinator Dr. Sharma" - System captures and processes[1][16] | Enables real-time field data capture; eliminates paperwork for 8000+ exam centers; improves data accuracy[16] |
 | **Voice-Enabled Bot** | **Scholarship Beneficiaries (Students)** | Students applying for CBSE merit scholarships call helpdesks repeatedly to check payment status - burdens regional office staff[11][17] | Student calls in Hindi: "Mera scholarship ka payment kab aayega?" - Bot checks PFMS, responds with payment status and expected date in Hindi[17][11][18] | Reduces helpdesk call volume by 60%; provides 24/7 service; improves beneficiary satisfaction; supports financial inclusion[17] |
@@ -159,21 +157,6 @@ Sources
 [16] Examination Bye-Laws https://www.cbse.gov.in/cbsenew/bylawspdf/CBSE-Examination%20by%20Law%20Book_2013.pdf
 [17] How to Track NSP Payment Status – Step-by-Step Guide for ... https://school.careers360.com/articles/how-to-track-nsp-payment
 [18] Track Your Scholarship Payments on the National ... https://services.india.gov.in/service/detail/track-your-scholarship-payments-on-the-national-scholarship-portal
-[19] WhatsApp-Image-1947-07-24-at-00.16.46.jpeg https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/images/41536623/8aceb61e-5e17-4388-beb5-8b1884860474/WhatsApp-Image-1947-07-24-at-00.16.46.jpeg?AWSAccessKeyId=ASIA2F3EMEYES6X76U3A&Signature=lzveww6iNxHJq0Wd5WAFClB9ouo%3D&x-amz-security-token=IQoJb3JpZ2luX2VjENP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIHlPUYJ%2BIfP9w3g%2B4CBpYZvAVfyoe4e%2F5U9fW2rm8tTkAiAxFwaaKz6QgpTjf7Wy4K4g9ijkY6%2Fqqs0oc6iL%2B%2BR2UirxBAh8EAEaDDY5OTc1MzMwOTcwNSIMKKoJnQ2s5f%2FFb3RyKs4Ee9y38GfiIAHwYxpL3wQ6yI%2FV%2FVohuGfa9AwoGwy0MpT7Tcs79R49qMiF0XScgkKaimT2ySkWC7qf4%2FRJ%2FPJ2c%2BIX5ZAG65%2F6GmUlh8c%2F58Iei2gdmKBCDqXxYezJ0yvWEHLWDQA3csZ2z216ClNzeClsjRGebReVavIKMZYXLklwMDZ%2FC9XQ1oHkLKImfknpmzDmtOzZborK9UJk5TIqc60%2B4Eef5UkPrqc%2BzaKRIki7fw1wjPvTl0NNE5Ysx67RT51farEUB3pfx%2B7KrkUEK4qDmzsAUel3eIAWebs%2F6mTUDoG%2BlHjtIxn1UT8tpe9HEV2mGcN%2BbU3SBvbbU8vE8hUMjEBWu6iRDggxHz2s%2BIvL%2B5Avj52SthPvtGBRkYEtMFVc3md37kby2ZssXe8NmwdGsGUIQMev%2B21vDEs7MH5vMKeM%2Bpt%2FG6Tg%2BtT3jaCvU8RKK2Ir3jn9wbaT1rWv2VVfQsO7YMFGPle2d7WkYZDcvAPzH0fkGXw8hPozbVancx2rpno93wRHPOP%2B%2FRNQFS%2FORxfpF57U48WnB1TEY55X5o58cUi16uIFY7as%2F2TKqLUH32JMtbWpeYGcKn0u2vxvWCkELlpTpJG5ErEcwiXtTVAgeVODzGpFHqr4hj4nj0wtEsCOXi4C0FdhdYrBs7mb1eu%2FFHBgIfGXabpannO5JotlfofxpCPsobIgd6qPi%2BvasdfHlSCzuXc0SJv1nu2nVOvum31gjDHbBpOkl5gtbaKrMxKCCZpD8MfyXdfBhYYVVKZVuXX8U2emPLwwltO%2FxwY6mwFVnqNdZ%2BsGCRYOXW5POiJnItqkBy%2B9oDxw8wW5YAWrPGdESTqNyYAcXISVf%2B4nNXaadktTTTc4U8oT3I6v6u6zBTgkh4p1Tyq84hliuyTAcZ4z2jRN89Yau2DToMszdBJac8D5NBH1mHO1QI51K1Tt6uNToCUpMu%2FzNBjq62SptOdnvp3bWgdWIY6kaEZra%2BpKROiXZDn2MZHCbA%3D%3D&Expires=1760555256
-[20] WhatsApp-Image-1947-07-24-at-00.16.43-1.jpeg https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/images/41536623/a1d71692-7f9a-4edf-8036-9eac879aa6f0/WhatsApp-Image-1947-07-24-at-00.16.43-1.jpeg?AWSAccessKeyId=ASIA2F3EMEYES6X76U3A&Signature=qgzZVASFBlGteNhZepWPZIhKMEI%3D&x-amz-security-token=IQoJb3JpZ2luX2VjENP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIHlPUYJ%2BIfP9w3g%2B4CBpYZvAVfyoe4e%2F5U9fW2rm8tTkAiAxFwaaKz6QgpTjf7Wy4K4g9ijkY6%2Fqqs0oc6iL%2B%2BR2UirxBAh8EAEaDDY5OTc1MzMwOTcwNSIMKKoJnQ2s5f%2FFb3RyKs4Ee9y38GfiIAHwYxpL3wQ6yI%2FV%2FVohuGfa9AwoGwy0MpT7Tcs79R49qMiF0XScgkKaimT2ySkWC7qf4%2FRJ%2FPJ2c%2BIX5ZAG65%2F6GmUlh8c%2F58Iei2gdmKBCDqXxYezJ0yvWEHLWDQA3csZ2z216ClNzeClsjRGebReVavIKMZYXLklwMDZ%2FC9XQ1oHkLKImfknpmzDmtOzZborK9UJk5TIqc60%2B4Eef5UkPrqc%2BzaKRIki7fw1wjPvTl0NNE5Ysx67RT51farEUB3pfx%2B7KrkUEK4qDmzsAUel3eIAWebs%2F6mTUDoG%2BlHjtIxn1UT8tpe9HEV2mGcN%2BbU3SBvbbU8vE8hUMjEBWu6iRDggxHz2s%2BIvL%2B5Avj52SthPvtGBRkYEtMFVc3md37kby2ZssXe8NmwdGsGUIQMev%2B21vDEs7MH5vMKeM%2Bpt%2FG6Tg%2BtT3jaCvU8RKK2Ir3jn9wbaT1rWv2VVfQsO7YMFGPle2d7WkYZDcvAPzH0fkGXw8hPozbVancx2rpno93wRHPOP%2B%2FRNQFS%2FORxfpF57U48WnB1TEY55X5o58cUi16uIFY7as%2F2TKqLUH32JMtbWpeYGcKn0u2vxvWCkELlpTpJG5ErEcwiXtTVAgeVODzGpFHqr4hj4nj0wtEsCOXi4C0FdhdYrBs7mb1eu%2FFHBgIfGXabpannO5JotlfofxpCPsobIgd6qPi%2BvasdfHlSCzuXc0SJv1nu2nVOvum31gjDHbBpOkl5gtbaKrMxKCCZpD8MfyXdfBhYYVVKZVuXX8U2emPLwwltO%2FxwY6mwFVnqNdZ%2BsGCRYOXW5POiJnItqkBy%2B9oDxw8wW5YAWrPGdESTqNyYAcXISVf%2B4nNXaadktTTTc4U8oT3I6v6u6zBTgkh4p1Tyq84hliuyTAcZ4z2jRN89Yau2DToMszdBJac8D5NBH1mHO1QI51K1Tt6uNToCUpMu%2FzNBjq62SptOdnvp3bWgdWIY6kaEZra%2BpKROiXZDn2MZHCbA%3D%3D&Expires=1760555256
-[21] Public Financial Management System (PFMS) Manual of ... https://cga.nic.in/writereaddata/manuals/pfmsusermanualvol1.pdf
-[22] 12. Functions Of Accounting Officer http://attorneygeneralchambers.com/laws-of-saint-lucia/public-finance-management-act/section-12
-[23] Public Finance Management System PFMS https://cga.nic.in/Page/Public-Finance-Management-System-PFMS.aspx
-[24] Home | Ministry of Finance | Government of India https://finmin.gov.in
-[25] User Guide – Drawing and Disbursing Officer https://pfms.nic.in/static/userguide/BankRuleHelp.htm
-[26] Ministry of Finance, Government of India https://financialservices.gov.in/beta/en
-[27] Home : CONTROLLER GENERAL OF ACCOUNTS https://cga.nic.in
-[28] Guide for Accounting Officers | PFMA https://www.treasury.gov.za/legislation/pfma/guidelines/accounting%20officers%20guide%20to%20the%20pfma.pdf
-[29] Organization Details : Ministry of Finance https://igod.gov.in/organization/Ic4zv3QBGZk0jujBKgGW
-[30] FAQs on PFMS-Employee Information System https://pfms.nic.in/CentralEIS/faq/FAQsEIS.php
-[31] Public financial management https://gsdrc.org/professional-dev/public-financial-management/
-[32] Committee on Public & Government Financial Management ... https://cpgfm.icai.org
-[33] FAQ https://pfms.nic.in/Static/FAQs.aspx
-[34] Ministry of Finance (India) https://en.wikipedia.org/wiki/Ministry_of_Finance_(India)
+[19] WhatsApp-Image-1947-07-24-at-00.16.46.jpeg https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/images/41536623/8aceb61e-5e17-4388-beb5-8b1884860474/WhatsApp-Image-1947-07-24-at-00.16.46.jpeg?AWSAccessKeyId=ASIA2F3EMEYES6X76U3A&Signature=lzveww6iNxHJq0Wd5WAFClB9ouo%3D&x-amz-security-token=IQoJb3JpZ2luX2VjENP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIHlPUYJ%2BIfP9w3g%2B4CBpYZvAVfyoe4e%2F5U9fW2rm8tTkAiAxFwaaKz6QgpTjf7Wy4K4g9ijkY6%2Fqqs0oc6iL%2B%2BR2UirxBAh8EAEaDDY5OTc1MzMwOTcwNSIMKKoJnQ2s5f%2FFb3RyKs4Ee9y38GfiIAHwYxpL3wQ6yI%2FV%2FVohuGfa9AwoGwy0MpT7Tcs79R49qMiF0XScgkKaimT2ySkWC7qf4%2FRJ%2FPJ2c%2BIX5ZAG65%2F6GmUlh8c%2F58Iei2gdmKBCDqXxYezJ0yvWEHLWDQA3csZ2z216ClNzeClsjRGebReVavIKMZYXLklwMDZ%2FC9XQ1oHkLKImfknpmzDmtOzZborK9UJk5TIqc60%2B4Eef5UkPrqc%2BzaKRIki7fw1wjPvTl0NNE5Ysx67RT51farEUB3pfx%2B7KrkUEK4qDmzsAUel3eIAWebs%2F6mTUDoG%2BlHjtIxn1UT8tpe9HEV2mGcN%2BbU3SBvbbU8vE8hUMjEBWu6iRDggxHz2s%2BIvL%2B5Avj52SthPvtGBRkYEtMFVc3md37kby2ZssXe8NmwdGsGUIQMev%2B21vDEs7MH5vMKeM%2Bpt%2FG6Tg%2BtT3jaCvU8RKK2Ir3jn9wbaT1rWv2VVfQsO7YMFGPle2d7WkYZDcvAPzH0fkGXw8hPozbVancx2rpno93wRHPOP%2B%2FRNQFS%2FORxfpF57U48WnB1TEY55X5o58cUi16uIFY7as%2F2TKqLUH32JMtbWpeYGcKn0u2vxvWCkELlpTpJG5ErEcwiXtTVAgeVODzGpFHqr4hj4nj0wtEsCOXi4C0FdhdYrBs7mb1eu%)
 
 
