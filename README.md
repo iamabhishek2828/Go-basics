@@ -1,3 +1,30 @@
+Got it 👍 — your manager said Options **1, 2, and 3** (Ask & Get Exact Answers, Doc-aware Advisor, and Smart Search & Fraud Flag) were overlapping, so you want a **better, consolidated version** of this table with **4 improved, distinct options** that don’t feel repetitive.
+
+Here’s a refined and clearer version:
+
+---
+
+### 🔹 Improved Table – “Talk to Data in PFM” Options
+
+| **Option**                      | **How it works (simple)**                                                                                                                           | **What it helps with**                                                                                                                    | **What data it uses**                                                     |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| **1) Smart Insights Assistant** | You ask a question (text/voice) and the app analyzes your transactions and policies to give a clear, sourced answer with quick insights or visuals. | Quick, accurate insights — e.g., “How much did I spend on travel last month?”, “Is this charge refundable?”, or “Show my spending trend.” | Transactions (date, amount, merchant), balances, and policy documents.    |
+| **2) Spending & Fraud Monitor** | The app auto-scans your data to identify spending patterns, detect duplicate or suspicious transactions, and flag potential frauds in real time.    | Detects errors, recurring payments, or unusual activity — ensures financial safety and accuracy.                                          | Transaction details, merchant data, timestamps, and device/location info. |
+| **3) Goal & Budget Coach**      | You set goals or budgets (like “Save ₹5000 this month”), and the app tracks progress, suggests adjustments, and nudges you when off-track.          | Personalized coaching for savings, budgeting, and smarter money habits.                                                                   | Budgets, income/expense data, and saving targets.                         |
+| **4) Voice-Enabled Actions**    | Speak a command (“Transfer ₹2000 to savings”), and the app confirms securely with OTP before completing the task.                                   | Hands-free experience — quick fund transfers, bill payments, or goal updates with verification.                                           | Transactions, account IDs, available balance, and consent/auth logs.      |
+
+---
+
+✅ **Why this version is better:**
+
+* Avoids overlap — each feature now has a clear purpose.
+* Keeps the flow from **insight → safety → planning → action**.
+* Balanced focus on intelligence, automation, and user control.
+
+---
+
+Would you like me to make this version sound a bit more **formal and presentation-ready** (e.g., for a slide or report)?
+
 Great — I matched your manager’s simple style and continued the recommendations after **H**. Each item is one short, manager-ready sentence and includes an authoritative source in the same bracketed style your manager used. Pasteable as-is.
 
 I. **Governance & Programme Board**
