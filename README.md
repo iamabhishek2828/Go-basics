@@ -4,7 +4,9 @@ Now I'll create a comprehensive document showing the methodology and approach fo
 
 ## Executive Summary
 
-This document outlines the comprehensive methodology and implementation approach for evaluating the Corporate Data Management (CDM) Scheme launched by the Ministry of Corporate Affairs in FY 2015-16[1][2]. The evaluation aims to assess effectiveness, efficiency, and impact while developing strategies for transitioning CDM to a self-sustaining model[2][3]. This framework incorporates CBSE (Central Sector Budget Estimation) context with proven methodologies and authentic implementation examples.
+
+
+The Ministry of Corporate Affairs (MCA) Corporate Data Management (CDM) scheme aims to turn MCA21 filings into a structured, usable data asset and to make CDM sustainable and useful for government, research and industry. This document defines a pragmatic evaluation and delivery approach that (a) assesses current capability, (b) delivers a small working proof-of-value quickly, and (c) lays out a roadmap to scale, monetize, govern and sustain CDM operations. Key outcomes: an operational diagnostic, a POC pipeline and dashboards, governance and monetization strategy, and a control-based risk plan aligned to central budget/priorities (CBSE context).
 
 ## Comprehensive Methodology and Approach Framework
 
