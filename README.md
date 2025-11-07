@@ -18,11 +18,17 @@ This evaluation will answer three priority questions for MCA: (a) can CDM reliab
 
 ## 2. Narrative methodology — how we will work (paragraph format)
 
-We adopt a phased, iterative methodology focused on early wins and controlled scale. Phase 0 (setup) secures access, confirms stakeholders and defines acceptance criteria. Phase 1 (rapid diagnostic, weeks 0–4) performs a focused inventory of data types (PDF, XML, Excel), a sample extraction exercise and stakeholder interviews to prioritise the highest-value filings and use cases. This short, evidence-driven diagnostic produces a concise action list of quick wins and informs the POV scope. [4][6]
+Our approach is anchored in evidence-based analysis, iterative validation, and risk-controlled implementation. The focus is on developing a clear understanding of the Corporate Data Management (CDM) system, identifying improvement opportunities, and aligning all recommendations with CBSE-style risk management and governance principles. [1][12][16]
 
-Phase 2 (POV & process review, weeks 5–12) builds a small production pipeline for a single high-impact statutory form: automated ingestion → parser + validation → canonical dataset → authorised API and 2–3 dashboards. Parallel process mapping identifies bottlenecks in ETL, enrichment, metadata and lineage. The POV proves extraction accuracy, performance, and operational handover procedures. Phase 3 (controls & legal mapping, parallel) delivers a DPIA, control catalogue (masking, RBAC, logging), and access tiers for public, research and paid use—ensuring DPDP and NDSAP alignment before monetization pilots. [1][8][14]
+We begin with data discovery and stakeholder mapping, assessing the structure, volume, and quality of existing filings (such as PDFs, XMLs, and Excel formats). This stage helps identify the most critical datasets, their dependencies, and compliance sensitivities. [4][5][6]
 
-Phase 4 (scale & monetization roadmap, months 4–12) lays out prioritized product launches, pricing experiments and a phased onboarding plan for historical data. This roadmap includes a product factory process for rapid packaging, monitoring KPIs, and a CBSE-budgeted resource plan. Final months focus on institutionalising SOPs, training, and handover to operations. Throughout, PwC uses agile sprints, fortnightly demonstrations and a tight governance cadence with MCA. [9][13]
+Next, we adopt an evidence-driven diagnostic to uncover inefficiencies in extraction, transformation, and metadata enrichment processes. Our analysis also evaluates control maturity—masking, access rights, lineage, and monitoring—using DPDP and NDSAP frameworks as references. [8][14][16]
+
+The core methodology applies agile and design-thinking principles: small, testable experiments to validate hypotheses before scale. Each iteration focuses on impact validation (e.g., time saved, quality improved, or policy utility enhanced) rather than broad technical rollout. [11][16]
+
+Parallel to technical assessment, we ensure legal and operational compliance through a Data Protection Impact Assessment (DPIA), privacy risk mapping, and access-tier definition for public, research, and commercial use. [8][9][14]
+
+Finally, findings are translated into a scalable roadmap — covering process recommendations, data governance improvements, and monetization opportunities — all aligned with CBSE financial discipline and risk-control norms. [1][9][12][13]
 
 ---
 
