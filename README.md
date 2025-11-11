@@ -765,3 +765,13 @@ Here’s the ready-to-use **text-table template** — you can copy it *directly 
 ---
 
 Would you like me to also make a **version with pre-filled orange/grey/teal color codes** and export it as a downloadable `.docx` file that you can drop straight into your proposal?
+| Phase                           | Start Week | Duration |
+| ------------------------------- | ---------- | -------- |
+| Project Setup                   | 1          | 2        |
+| Discovery & Diagnostic          | 3          | 4        |
+| Pilot Build                     | 7          | 6        |
+| Governance & DPIA               | 7          | 6        |
+| Productization & Monetization   | 13         | 10       |
+| Historical Data Load (Parallel) | 13         | 10       |
+| Scaling & Interoperability      | 23         | 4        |
+| Training & Handover             | 23         | 4        |
