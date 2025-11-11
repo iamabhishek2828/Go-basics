@@ -718,3 +718,50 @@ To accelerate delivery and raise value while keeping control, the pilot deploys 
 • Operational telemetry & product analytics: instrument extraction pipelines and API endpoints for usage, error rates and churn predictions — enabling dynamic prioritisation of fixes and targeted pricing pilots.
 
 Each innovation is introduced in controlled steps within the pilot, with explicit acceptance criteria (for example: automated mapping templates must be >85% correct on an initial validation sample before being applied broadly). The result is a pilot that demonstrates both technical feasibility and a clear path to repeatable productisation — faster development, fewer manual corrections, stronger auditability and privacy-safe monetization.⁵
+Perfect 👍
+Let’s make it **copy-paste ready for Word**, with **PwC-style formatting**, correct week labels, deliverables, and color suggestions (you’ll just fill the shading inside Word).
+
+Here’s the ready-to-use **text-table template** — you can copy it *directly into Word* and then apply the colors using **Home → Shading**:
+
+---
+
+### **📊 PwC-Style Gantt Chart Template (Copy-Paste into Word)**
+
+| **Phase / Workstream**                             | **W1** | **W2** | **W3** | **W4** | **W5** | **W6** | **W7** | **W8** | **W9** | **W10** | **W11** | **W12** | **W13–W22** | **W23–W26** | **Deliverable / Milestone**              |
+| :------------------------------------------------- | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :-----: | :-----: | :-----: | :---------: | :---------: | :--------------------------------------- |
+| **Phase 1 — Project Setup**                        |   ███  |   ███  |        |        |        |        |        |        |        |         |         |         |             |             | Kickoff, Access Setup                    |
+| **Phase 2 — Discovery & Diagnostic**               |        |   ███  |   ███  |   ███  |   ███  |        |        |        |        |         |         |         |             |             | Discovery Report & Pilot Scope           |
+| **Phase 3 — Pilot Build**                          |        |        |        |   ███  |   ███  |   ███  |   ███  |   ███  |        |         |         |         |             |             | Working AOC-4 Pilot (Dashboards + API)   |
+| **Phase 4 — Governance & DPIA**                    |        |        |        |        |   ███  |   ███  |   ███  |   ███  |        |         |         |         |             |             | DPIA Signed, Governance Pack             |
+| **Phase 5 — Productization & Monetization Pilots** |        |        |        |        |        |        |        |        |   ███  |   ███   |   ███   |   ███   |     ███     |             | Product Suite Launched (Datasets + APIs) |
+| **Phase 6 — Historical Data Load (Parallel)**      |        |        |        |        |        |        |        |        |   ███  |   ███   |   ███   |   ███   |     ███     |             | 3 Years Data Onboarded                   |
+| **Phase 7 — Scaling & Interoperability**           |        |        |        |        |        |        |        |        |        |         |         |         |             |     ███     | Scaling Roadmap & API Gateway            |
+| **Phase 8 — Training & Handover**                  |        |        |        |        |        |        |        |        |        |         |         |         |             |     ███     | SOPs + Training Complete                 |
+
+---
+
+### 🎨 **Color Code (for Word → Home → Shading)**
+
+| **Category**       | **Color Suggestion (Word Palette)**   | **Usage**           |
+| ------------------ | ------------------------------------- | ------------------- |
+| Execution Phase    | **Orange, Accent 6 (60%)**            | Major delivery work |
+| Parallel Track     | **Teal, Accent 3 (40%)**              | DPIA & Governance   |
+| Planning / Setup   | **Grey, 25%**                         | Early preparation   |
+| Handover / Closure | **Dark Grey or Blue, Accent 1 (40%)** | Final wrap-up       |
+
+---
+
+### 🧠 **Tips for Formatting in Word**
+
+1. **Copy this table → Paste into your Word document.**
+   (If alignment breaks, go to *Table Layout → Autofit → Fixed Column Width*.)
+2. Select shaded cells → **Home → Shading → Pick PwC color**.
+3. Adjust column width to ~0.7 cm per week.
+4. Bold all *phase titles* and use smaller font (9–10 pt) for week labels.
+5. Add a caption below:
+
+   > *Figure 1. MCA CDM Project Implementation Timeline (26–30 Weeks)*
+
+---
+
+Would you like me to also make a **version with pre-filled orange/grey/teal color codes** and export it as a downloadable `.docx` file that you can drop straight into your proposal?
