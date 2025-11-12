@@ -74,3 +74,13 @@ Architecturally, we recommend cloud-native reference patterns centred on modular
 Impact measurement is integral, not optional. Our method incorporates quantitative KPIs directly tied to the Ministry’s objectives — including extraction accuracy, QC cycle-time reduction, data availability lag, number of filing types automated, case triage efficiency, and revenue generation from data products. Each KPI corresponds with the RFP’s evaluation metrics, ensuring that every recommendation can be validated empirically. This approach converts insights into measurable value rather than anecdotal success. [15][2][4]
 
 The deliverables are operational artefacts, not theoretical reports. They include an evidence dossier summarising diagnostic metrics and priority maps, a technical specification pack covering ETL, metadata, and schema controls, a DPIA and governance handbook, and a CBSE-aligned monetisation roadmap with decision checkpoints. These deliverables are designed for independent execution by the MCA PMO, ensuring continuity and scalability even post-handover. In essence, this is how the proposed approach transforms the scope of work into a de-risked, iterative, and verifiable execution framework. [15][1][12]
+
+Phase	Start Week	End Week	Start Month-week	End Month-week	Month span
+P0 — Inception	1	2	Dec W1	Dec W2	Dec
+P1 — Discovery	3	6	Dec W3	Jan W2	Dec → Jan
+P2 — Target design	7	11	Jan W3	Feb W3	Jan → Feb
+P3 — PoV build	12	17	Feb W4	Apr W1	Feb → Mar → Apr
+P4 — Scale the pattern	18	22	Apr W2	May W2	Apr → May
+P5 — CDMA starter	23	26	May W3	Jun W2	May → Jun
+Optional extension	27	38	Jun W3	Sep W2	Jun → Jul → Aug → Sep
+
