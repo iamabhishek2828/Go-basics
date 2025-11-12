@@ -45,3 +45,23 @@ Finally, our deliverables are productised not theoretical: an evidence dossier s
 [16] EY Government AI & Public Value — [https://www.ey.com/en_gl/insights/government-public-sector/how-data-analytics-and-ai-in-government-can-drive-greater-public-value](https://www.ey.com/en_gl/insights/government-public-sector/how-data-analytics-and-ai-in-government-can-drive-greater-public-value)
 [19] Parseur Legal Data Extraction — [https://parseur.com/use-case/extract-data-legal-data-extraction](https://parseur.com/use-case/extract-data-legal-data-extraction)
 [20] Nanonets Legal Document Extraction — [https://nanonets.com/solutions/legal](https://nanonets.com/solutions/legal)
+WORK PLAN NOTES:
+
+Project Structure: This 12-week engagement is structured to deliver three key outputs: 
+(1) Inception Report validating methodology and data access (Week 5), (2) Discovery 
+& Diagnostic Report identifying priority filing types and pilot opportunities (Week 8), 
+and (3) Final Report with pilot demonstration and scaling roadmap (Week 12).
+
+Timeline Dependencies: The timeline assumes timely cooperation from MCA in providing 
+access to MCA21 staging environment by Week 2 and stakeholder availability for 
+consultations in Weeks 6-8. Any delays in data access will extend subsequent phases 
+proportionally.
+
+Client Touchpoints: Blue-highlighted activities (Rows 2.4-2.6) represent critical 
+client-facing work including the pilot extraction workshop and governance framework 
+development. These activities require active MCA participation and represent decision 
+gates for project continuation.
+
+Deliverable Sign-off: All deliverables marked with ⊙ require formal approval from 
+MCA project leads before proceeding to subsequent phases. Sign-off authority and 
+documentation requirements are detailed in the project governance framework.
