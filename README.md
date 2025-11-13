@@ -21,3 +21,4 @@ flowchart TD
     E --> F[Dual Gates]
     F --> F1[Quality Gate]
     F1 --> F2[Legal Gate\nAligned with all policies]
+https://egovstandards.gov.in/sites/default/files/2023-05/Open%20API%20Policyfor%20e-Governance%20Applications%20in%20India.pdf
