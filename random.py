@@ -14,6 +14,41 @@ const DEFAULT_RPM_FEMALE_AVATAR_URL =
 const AVATAR_MODE = import.meta.env.VITE_AVATAR_MODE || "glb";
 const AVATAR_GLB_URL =
   import.meta.env.VITE_AVATAR_GLB_URL || DEFAULT_RPM_FEMALE_AVATAR_URL;
+const FAKE_LIPSYNC_PRESET =
+  (import.meta.env.VITE_FAKE_LIPSYNC_PRESET || "cartoon").toLowerCase();
+
+const FAKE_LIPSYNC_PRESETS = {
+  natural: {
+    openMax: 0.72,
+    visemeGain: 0.65,
+    audioGain: 3.1,
+    pulseFreq: 11,
+    jawGain: 0.28,
+    mouthMeshGain: 0.38,
+    faceGain: 0.45,
+    overlayGain: 0.6,
+  },
+  medium: {
+    openMax: 0.95,
+    visemeGain: 0.75,
+    audioGain: 4.0,
+    pulseFreq: 13,
+    jawGain: 0.42,
+    mouthMeshGain: 0.62,
+    faceGain: 0.72,
+    overlayGain: 0.95,
+  },
+  cartoon: {
+    openMax: 1.2,
+    visemeGain: 0.85,
+    audioGain: 5.5,
+    pulseFreq: 16,
+    jawGain: 0.58,
+    mouthMeshGain: 0.95,
+    faceGain: 1.0,
+    overlayGain: 1.35,
+  },
+};
 
 const ALL_RPM_VISEMES = [
   "viseme_sil",
@@ -491,6 +526,14 @@ function GLBAvatarModel({ avatarUrl, visemes, isSpeaking, audioRef }) {
     analyser: null,
     dataArray: null,
   });
+  const fakeMouthOverlayRef = useRef({
+    mesh: null,
+    baseScaleX: 1,
+    baseScaleY: 1,
+    basePositionY: 0,
+  });
+  const fakeLipPreset =
+    FAKE_LIPSYNC_PRESETS[FAKE_LIPSYNC_PRESET] || FAKE_LIPSYNC_PRESETS.medium;
 
   const { avatarScene, focusTarget, cameraPosition } = useMemo(() => {
     const clonedScene = SkeletonUtils.clone(scene);
@@ -685,6 +728,61 @@ function GLBAvatarModel({ avatarUrl, visemes, isSpeaking, audioRef }) {
   }, []);
 
   React.useEffect(() => {
+    const overlayState = fakeMouthOverlayRef.current;
+
+    if (overlayState.mesh) {
+      avatarScene.remove(overlayState.mesh);
+      overlayState.mesh.geometry?.dispose();
+      overlayState.mesh.material?.dispose();
+      overlayState.mesh = null;
+    }
+
+    if (!shouldUseFakeLipSync || faceMeshes.length === 0) {
+      return undefined;
+    }
+
+    const anchorMesh = faceMeshes[0].mesh;
+    const box = new THREE.Box3().setFromObject(anchorMesh);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+
+    const overlay = new THREE.Mesh(
+      new THREE.CircleGeometry(1, 28),
+      new THREE.MeshBasicMaterial({
+        color: "#1a0a0a",
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+      })
+    );
+
+    const mouthY = box.min.y + size.y * 0.33;
+    const mouthZ = box.max.z + Math.max(0.004, size.z * 0.02);
+    const mouthWidth = Math.max(0.016, size.x * 0.11);
+    const mouthHeight = Math.max(0.004, size.y * 0.02);
+
+    overlay.position.set(0, mouthY, mouthZ);
+    overlay.scale.set(mouthWidth, mouthHeight, 1);
+    overlay.visible = false;
+
+    overlayState.mesh = overlay;
+    overlayState.baseScaleX = mouthWidth;
+    overlayState.baseScaleY = mouthHeight;
+    overlayState.basePositionY = mouthY;
+
+    avatarScene.add(overlay);
+
+    return () => {
+      avatarScene.remove(overlay);
+      overlay.geometry?.dispose();
+      overlay.material?.dispose();
+      if (fakeMouthOverlayRef.current.mesh === overlay) {
+        fakeMouthOverlayRef.current.mesh = null;
+      }
+    };
+  }, [avatarScene, shouldUseFakeLipSync, faceMeshes]);
+
+  React.useEffect(() => {
     let isActive = true;
     let cleanupLegacyMaterials = () => {};
 
@@ -874,10 +972,18 @@ function GLBAvatarModel({ avatarUrl, visemes, isSpeaking, audioRef }) {
       const visemeLevel =
         activeViseme.viseme === "viseme_sil" ? 0 : activeViseme.value || 0;
       const targetOpen = isSpeaking
-        ? THREE.MathUtils.clamp(Math.max(visemeLevel * 0.7, audioLevel * 3.6), 0, 0.75)
+        ? THREE.MathUtils.clamp(
+            Math.max(
+              visemeLevel * fakeLipPreset.visemeGain,
+              audioLevel * fakeLipPreset.audioGain
+            ),
+            0,
+            fakeLipPreset.openMax
+          )
         : 0;
       const speechPulse = isSpeaking
-        ? (Math.sin(state.clock.elapsedTime * 14) * 0.5 + 0.5) * targetOpen
+        ? (Math.sin(state.clock.elapsedTime * fakeLipPreset.pulseFreq) * 0.5 + 0.5) *
+          targetOpen
         : 0;
 
       fakeLip.open = THREE.MathUtils.lerp(fakeLip.open, targetOpen, 0.22);
@@ -885,7 +991,7 @@ function GLBAvatarModel({ avatarUrl, visemes, isSpeaking, audioRef }) {
       jawBones.forEach(({ bone, baseRotationX }) => {
         bone.rotation.x = THREE.MathUtils.lerp(
           bone.rotation.x,
-          baseRotationX - fakeLip.open * 0.45,
+          baseRotationX - fakeLip.open * fakeLipPreset.jawGain,
           0.35
         );
       });
@@ -893,12 +999,17 @@ function GLBAvatarModel({ avatarUrl, visemes, isSpeaking, audioRef }) {
       mouthMeshes.forEach(({ mesh, baseScaleY, basePositionY }) => {
         mesh.scale.y = THREE.MathUtils.lerp(
           mesh.scale.y,
-          Math.max(0.35, baseScaleY - fakeLip.open * 0.65 - speechPulse * 0.22),
+          Math.max(
+            0.25,
+            baseScaleY -
+              fakeLip.open * (0.65 * fakeLipPreset.mouthMeshGain) -
+              speechPulse * (0.26 * fakeLipPreset.mouthMeshGain)
+          ),
           0.28
         );
         mesh.position.y = THREE.MathUtils.lerp(
           mesh.position.y,
-          basePositionY - fakeLip.open * 0.06,
+          basePositionY - fakeLip.open * (0.072 * fakeLipPreset.mouthMeshGain),
           0.3
         );
       });
@@ -912,8 +1023,10 @@ function GLBAvatarModel({ avatarUrl, visemes, isSpeaking, audioRef }) {
           basePositionY,
           baseRotationX,
         }) => {
-          const squash = fakeLip.open * 0.06 + speechPulse * 0.02;
-          const stretch = fakeLip.open * 0.045 + speechPulse * 0.015;
+          const squash =
+            (fakeLip.open * 0.06 + speechPulse * 0.02) * fakeLipPreset.faceGain;
+          const stretch =
+            (fakeLip.open * 0.045 + speechPulse * 0.015) * fakeLipPreset.faceGain;
 
           mesh.scale.x = THREE.MathUtils.lerp(mesh.scale.x, baseScaleX + stretch, 0.18);
           mesh.scale.y = THREE.MathUtils.lerp(
@@ -924,16 +1037,41 @@ function GLBAvatarModel({ avatarUrl, visemes, isSpeaking, audioRef }) {
           mesh.scale.z = THREE.MathUtils.lerp(mesh.scale.z, baseScaleZ + stretch * 0.5, 0.18);
           mesh.position.y = THREE.MathUtils.lerp(
             mesh.position.y,
-            basePositionY - fakeLip.open * 0.018,
+            basePositionY - fakeLip.open * (0.018 * fakeLipPreset.faceGain),
             0.2
           );
           mesh.rotation.x = THREE.MathUtils.lerp(
             mesh.rotation.x,
-            baseRotationX + fakeLip.open * 0.035,
+            baseRotationX + fakeLip.open * (0.035 * fakeLipPreset.faceGain),
             0.2
           );
         }
       );
+
+      const overlayState = fakeMouthOverlayRef.current;
+      if (overlayState.mesh) {
+        const overlay = overlayState.mesh;
+        const overlayOpen = fakeLip.open * fakeLipPreset.overlayGain + speechPulse * 0.6;
+        const targetScaleY = Math.max(
+          overlayState.baseScaleY * 0.35,
+          overlayState.baseScaleY * (0.35 + overlayOpen * 1.65)
+        );
+        const targetScaleX = overlayState.baseScaleX * (1 - Math.min(0.22, overlayOpen * 0.12));
+
+        overlay.visible = isSpeaking || fakeLip.open > 0.03;
+        overlay.scale.x = THREE.MathUtils.lerp(overlay.scale.x, targetScaleX, 0.25);
+        overlay.scale.y = THREE.MathUtils.lerp(overlay.scale.y, targetScaleY, 0.25);
+        overlay.position.y = THREE.MathUtils.lerp(
+          overlay.position.y,
+          overlayState.basePositionY - overlayOpen * 0.016,
+          0.22
+        );
+
+        const mat = overlay.material;
+        if (mat && "opacity" in mat) {
+          mat.opacity = THREE.MathUtils.lerp(mat.opacity, Math.min(0.82, 0.2 + overlayOpen * 0.7), 0.25);
+        }
+      }
     }
 
     if (avatarRootRef.current) {
@@ -1090,3 +1228,10 @@ export default function Avatar({
 if (AVATAR_MODE !== "procedural" && AVATAR_GLB_URL) {
   useGLTF.preload(AVATAR_GLB_URL);
 }
+
+
+
+
+VITE_AVATAR_MODE=glb
+VITE_AVATAR_GLB_URL=/subsurface_scattering_sss_demo_lara.glb
+VITE_FAKE_LIPSYNC_PRESET=cartoon
